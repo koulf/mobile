@@ -6,12 +6,14 @@ class ProductItemCart {
   int productAmount;
   double productPrice;
   String productImage;
+  dynamic objectReference;
 
   ProductItemCart({
     @required this.productTitle,
     @required this.productAmount,
     @required this.productPrice,
     @required this.productImage,
-    @required this.size
+    @required this.size,
+    @required this.objectReference
   });
 }

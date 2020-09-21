@@ -1,3 +1,4 @@
+import 'package:estructura_practica_1/models/product_dessert.dart';
 import 'package:estructura_practica_1/models/product_hot_drinks.dart';
 import 'package:estructura_practica_1/models/product_grains.dart';
 
@@ -9,9 +10,49 @@ class ProductRepository {
     // ----------------------       Tazas      ----------------------------//
     // ----------------------              ----------------------------//
 
-    //if (prodType == ProductType.POSTRES) {
-    // TODO: Agregar al menos 5 productos "postres"
-    //}
+    if (prodType == ProductType.POSTRES)
+      return <ProductDessert>[
+        ProductDessert(
+          productTitle: "Chocopie",
+          productDescription: "Pie de queso en cobertura de chocolate.",
+          productImage:
+              "https://i.pinimg.com/originals/b0/fb/1c/b0fb1cf1ca7fe7ea6f7c1adbfc52264e.png",
+          productSize: DessertSize.M,
+          productAmount: 0,
+        ),
+        ProductDessert(
+          productTitle: "Fresadonas",
+          productDescription: "Donas crujientes con cubierta de fresa.",
+          productImage:
+              "https://i.pinimg.com/originals/36/5e/17/365e17164af1f7205ed83899054193e2.png",
+          productSize: DessertSize.M,
+          productAmount: 0,
+        ),
+        ProductDessert(
+          productTitle: "Pastel de chocolate",
+          productDescription: "Pastel tres pisos sabor y cubierta de chocolate.",
+          productImage:
+              "https://www.buffalowildwings.com/globalassets/menuitems/10510001-chocolate-fudge-cake.png?format=png&width=600&v=2",
+          productSize: DessertSize.M,
+          productAmount: 0,
+        ),
+        ProductDessert(
+          productTitle: "Pastel de nuéz",
+          productDescription: "Pastel de leche con cubiertas de nuez crujiente.",
+          productImage:
+              "https://i.pinimg.com/originals/7f/81/67/7f8167cf0424ee1d47077d04f2c80293.jpg",
+          productSize: DessertSize.M,
+          productAmount: 0,
+        ),
+        ProductDessert(
+          productTitle: "Bites de oreo",
+          productDescription: "Bolas de chocolate crocante sabor galleta oreo.",
+          productImage:
+              "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/delish-oreo-cookie-balls-horizontal-1545247235.jpg?crop=0.668xw:1.00xh;0.178xw,0&resize=640:*",
+          productSize: DessertSize.M,
+          productAmount: 0,
+        )
+      ];
 
     // ----------------------              ----------------------------//
     // ----------------------       Granos      ----------------------------//

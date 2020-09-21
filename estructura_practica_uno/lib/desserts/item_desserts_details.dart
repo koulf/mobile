@@ -1,39 +1,39 @@
 import 'package:estructura_practica_1/checkout.dart';
-import 'package:estructura_practica_1/models/product_hot_drinks.dart';
+import 'package:estructura_practica_1/models/product_dessert.dart';
 import 'package:estructura_practica_1/models/product_item_cart.dart';
 import 'package:estructura_practica_1/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 
 
-class HotDrinkDetailsPage extends StatefulWidget {
-  final ProductHotDrinks drink;
+class DessertDetailsPage extends StatefulWidget {
+  final ProductDessert dessert;
   final List<ProductItemCart> carItems;
-  HotDrinkDetailsPage({
+  DessertDetailsPage({
     Key key,
-    @required this.drink,
+    @required this.dessert,
     @required this.carItems
   }) : super(key: key);
 
   @override
-  _HotDrinkDetailsPageState createState() => _HotDrinkDetailsPageState();
+  _DessertDetailsPageState createState() => _DessertDetailsPageState();
 }
 
-class _HotDrinkDetailsPageState extends State<HotDrinkDetailsPage> {
+class _DessertDetailsPageState extends State<DessertDetailsPage> {
 
   int selectedSize = 0;
 
   @override
   Widget build(BuildContext context) {
     
-    switch(widget.drink.productSize){
-      case ProductSize.CH:
+    switch(widget.dessert.productSize){
+      case DessertSize.CH:
         selectedSize = 0;
         break;
-      case ProductSize.M:
+      case DessertSize.M:
         selectedSize = 1;
         break;
-      case ProductSize.G:
+      case DessertSize.G:
         selectedSize = 2;
         break;
     };
@@ -44,7 +44,7 @@ class _HotDrinkDetailsPageState extends State<HotDrinkDetailsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.drink.productTitle),
+        title: Text(widget.dessert.productTitle),
         centerTitle: true
       ),
       body: ListView(
@@ -78,7 +78,7 @@ class _HotDrinkDetailsPageState extends State<HotDrinkDetailsPage> {
                               image: new DecorationImage(
                                 fit: BoxFit.fitHeight,
                                 alignment: FractionalOffset.topCenter,
-                                image: new NetworkImage(widget.drink.productImage),
+                                image: new NetworkImage(widget.dessert.productImage),
                               )
                             )
                           )
@@ -87,9 +87,9 @@ class _HotDrinkDetailsPageState extends State<HotDrinkDetailsPage> {
                     )
                   )
                 ),
-                IconButton(icon: Icon(Icons.favorite, color: _currentColor[ widget.drink.liked ? 1:0]), onPressed: (){
+                IconButton(icon: Icon(Icons.favorite, color: _currentColor[ widget.dessert.liked ? 1:0]), onPressed: (){
                   setState(() {
-                    widget.drink.liked = !widget.drink.liked;
+                    widget.dessert.liked = !widget.dessert.liked;
                   });
                 })
               ]
@@ -97,18 +97,18 @@ class _HotDrinkDetailsPageState extends State<HotDrinkDetailsPage> {
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 30),
-            child: Text(widget.drink.productTitle, style: TextStyle(fontSize: 28)),
+            child: Text(widget.dessert.productTitle, style: TextStyle(fontSize: 28)),
           ),
           Padding(
             padding: EdgeInsets.only(bottom: 20),
-            child: Text(widget.drink.productDescription, style: TextStyle(fontSize: 20)),
+            child: Text(widget.dessert.productDescription, style: TextStyle(fontSize: 20)),
 
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text("TAMAÑOS DISPONIBLES"),
-              Text("\$${widget.drink.productPrice.round()}", style: TextStyle(fontSize: 32))
+              Text("\$${widget.dessert.productPrice.round()}", style: TextStyle(fontSize: 32))
             ]
           ),
           Row(
@@ -121,8 +121,8 @@ class _HotDrinkDetailsPageState extends State<HotDrinkDetailsPage> {
                   onSelected: (bool selected) {
                     setState((){
                       this.selectedSize = selected ? 0 : null;
-                      widget.drink.productSize = ProductSize.CH;
-                      widget.drink.productPrice = widget.drink.productPriceCalculator();
+                      widget.dessert.productSize = DessertSize.CH;
+                      widget.dessert.productPrice = widget.dessert.productPriceCalculator();
                     }
                     );
                   }
@@ -136,8 +136,8 @@ class _HotDrinkDetailsPageState extends State<HotDrinkDetailsPage> {
                   onSelected: (bool selected) {
                     setState((){
                       this.selectedSize = selected ? 1 : null;
-                      widget.drink.productSize = ProductSize.M;
-                      widget.drink.productPrice = widget.drink.productPriceCalculator();
+                      widget.dessert.productSize = DessertSize.M;
+                      widget.dessert.productPrice = widget.dessert.productPriceCalculator();
                     }
                     );
                   }
@@ -149,8 +149,8 @@ class _HotDrinkDetailsPageState extends State<HotDrinkDetailsPage> {
                 onSelected: (bool selected) {
                   setState((){
                     this.selectedSize = selected ? 2 : null;
-                    widget.drink.productSize = ProductSize.G;
-                    widget.drink.productPrice = widget.drink.productPriceCalculator();
+                    widget.dessert.productSize = DessertSize.G;
+                    widget.dessert.productPrice = widget.dessert.productPriceCalculator();
                   }
                   );
                 }
@@ -167,31 +167,31 @@ class _HotDrinkDetailsPageState extends State<HotDrinkDetailsPage> {
                   child: FlatButton(
                     onPressed: (){
                       String size;
-                      switch (widget.drink.productSize) {
-                        case ProductSize.CH:
+                      switch (widget.dessert.productSize) {
+                        case DessertSize.CH:
                           size = "chico";
                           break;
-                        case ProductSize.M:
+                        case DessertSize.M:
                           size = "mediano";
                           break;
-                        case ProductSize.G:
+                        case DessertSize.G:
                           size = "grande";
                           break;
                       }
                       int i;
                       for (i = 0; i < widget.carItems.length; i++)
-                        if(widget.carItems.elementAt(i).productTitle == widget.drink.productTitle && widget.carItems.elementAt(i).size == size){
+                        if(widget.carItems.elementAt(i).productTitle == widget.dessert.productTitle && widget.carItems.elementAt(i).size == size){
                           widget.carItems.elementAt(i).productAmount += 1;
                           break;
                         }
                       if(i == widget.carItems.length)
                         widget.carItems.add(ProductItemCart(
-                          productTitle: widget.drink.productTitle, 
+                          productTitle: widget.dessert.productTitle, 
                           productAmount: 1,
-                          productPrice: widget.drink.productPrice,
-                          productImage: widget.drink.productImage,
+                          productPrice: widget.dessert.productPrice,
+                          productImage: widget.dessert.productImage,
                           size: size,
-                          objectReference: widget.drink
+                          objectReference: widget.dessert
                         ));
                       Navigator.of(context).pop();
                     },

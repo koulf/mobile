@@ -1,41 +1,39 @@
 import 'package:estructura_practica_1/checkout.dart';
-import 'package:estructura_practica_1/models/product_hot_drinks.dart';
+import 'package:estructura_practica_1/models/product_grains.dart';
 import 'package:estructura_practica_1/models/product_item_cart.dart';
 import 'package:estructura_practica_1/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 
 
-class HotDrinkDetailsPage extends StatefulWidget {
-  final ProductHotDrinks drink;
+class GrainsDetailsPage extends StatefulWidget {
+  final ProductGrains grains;
   final List<ProductItemCart> carItems;
-  HotDrinkDetailsPage({
+  GrainsDetailsPage({
     Key key,
-    @required this.drink,
+    @required this.grains,
     @required this.carItems
   }) : super(key: key);
 
   @override
-  _HotDrinkDetailsPageState createState() => _HotDrinkDetailsPageState();
+  _GrainsDetailsPageState createState() => _GrainsDetailsPageState();
 }
 
-class _HotDrinkDetailsPageState extends State<HotDrinkDetailsPage> {
+class _GrainsDetailsPageState extends State<GrainsDetailsPage> {
 
   int selectedSize = 0;
 
   @override
   Widget build(BuildContext context) {
     
-    switch(widget.drink.productSize){
-      case ProductSize.CH:
+    switch(widget.grains.productWeight){
+      case ProductWeight.CUARTO:
         selectedSize = 0;
         break;
-      case ProductSize.M:
+      case ProductWeight.KILO:
         selectedSize = 1;
         break;
-      case ProductSize.G:
-        selectedSize = 2;
-        break;
+
     };
 
     var _currentColor = [PRIMARY_COLOR, LIKED];
@@ -44,7 +42,7 @@ class _HotDrinkDetailsPageState extends State<HotDrinkDetailsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.drink.productTitle),
+        title: Text(widget.grains.productTitle),
         centerTitle: true
       ),
       body: ListView(
@@ -78,7 +76,7 @@ class _HotDrinkDetailsPageState extends State<HotDrinkDetailsPage> {
                               image: new DecorationImage(
                                 fit: BoxFit.fitHeight,
                                 alignment: FractionalOffset.topCenter,
-                                image: new NetworkImage(widget.drink.productImage),
+                                image: new NetworkImage(widget.grains.productImage),
                               )
                             )
                           )
@@ -87,9 +85,9 @@ class _HotDrinkDetailsPageState extends State<HotDrinkDetailsPage> {
                     )
                   )
                 ),
-                IconButton(icon: Icon(Icons.favorite, color: _currentColor[ widget.drink.liked ? 1:0]), onPressed: (){
+                IconButton(icon: Icon(Icons.favorite, color: _currentColor[ widget.grains.liked ? 1:0]), onPressed: (){
                   setState(() {
-                    widget.drink.liked = !widget.drink.liked;
+                    widget.grains.liked = !widget.grains.liked;
                   });
                 })
               ]
@@ -97,18 +95,18 @@ class _HotDrinkDetailsPageState extends State<HotDrinkDetailsPage> {
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 30),
-            child: Text(widget.drink.productTitle, style: TextStyle(fontSize: 28)),
+            child: Text(widget.grains.productTitle, style: TextStyle(fontSize: 28)),
           ),
           Padding(
             padding: EdgeInsets.only(bottom: 20),
-            child: Text(widget.drink.productDescription, style: TextStyle(fontSize: 20)),
+            child: Text(widget.grains.productDescription, style: TextStyle(fontSize: 20)),
 
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text("TAMAÑOS DISPONIBLES"),
-              Text("\$${widget.drink.productPrice.round()}", style: TextStyle(fontSize: 32))
+              Text("\$${widget.grains.productPrice.round()}", style: TextStyle(fontSize: 32))
             ]
           ),
           Row(
@@ -116,41 +114,26 @@ class _HotDrinkDetailsPageState extends State<HotDrinkDetailsPage> {
               Padding(
                 padding: EdgeInsets.only(right: 10),
                 child: ChoiceChip(
-                  label: Text("Chico"),
+                  label: Text("Cuarto"),
                   selected: this.selectedSize == 0,
                   onSelected: (bool selected) {
                     setState((){
                       this.selectedSize = selected ? 0 : null;
-                      widget.drink.productSize = ProductSize.CH;
-                      widget.drink.productPrice = widget.drink.productPriceCalculator();
-                    }
-                    );
-                  }
-                )
-              ),
-              Padding(
-                padding: EdgeInsets.only(right: 10),
-                child: ChoiceChip(
-                  label: Text("Mediano"),
-                  selected: this.selectedSize == 1,
-                  onSelected: (bool selected) {
-                    setState((){
-                      this.selectedSize = selected ? 1 : null;
-                      widget.drink.productSize = ProductSize.M;
-                      widget.drink.productPrice = widget.drink.productPriceCalculator();
+                      widget.grains.productWeight = ProductWeight.CUARTO;
+                      widget.grains.productPrice = widget.grains.productPriceCalculator();
                     }
                     );
                   }
                 )
               ),
               ChoiceChip(
-                label: Text("Grande"),
-                selected: this.selectedSize == 2,
+                label: Text("Kilo"),
+                selected: this.selectedSize == 1,
                 onSelected: (bool selected) {
                   setState((){
                     this.selectedSize = selected ? 2 : null;
-                    widget.drink.productSize = ProductSize.G;
-                    widget.drink.productPrice = widget.drink.productPriceCalculator();
+                    widget.grains.productWeight = ProductWeight.KILO;
+                    widget.grains.productPrice = widget.grains.productPriceCalculator();
                   }
                   );
                 }
@@ -167,31 +150,28 @@ class _HotDrinkDetailsPageState extends State<HotDrinkDetailsPage> {
                   child: FlatButton(
                     onPressed: (){
                       String size;
-                      switch (widget.drink.productSize) {
-                        case ProductSize.CH:
-                          size = "chico";
+                      switch (widget.grains.productWeight) {
+                        case ProductWeight.CUARTO:
+                          size = "cuarto";
                           break;
-                        case ProductSize.M:
-                          size = "mediano";
-                          break;
-                        case ProductSize.G:
-                          size = "grande";
+                        case ProductWeight.KILO:
+                          size = "kilo";
                           break;
                       }
                       int i;
                       for (i = 0; i < widget.carItems.length; i++)
-                        if(widget.carItems.elementAt(i).productTitle == widget.drink.productTitle && widget.carItems.elementAt(i).size == size){
+                        if(widget.carItems.elementAt(i).productTitle == widget.grains.productTitle && widget.carItems.elementAt(i).size == size){
                           widget.carItems.elementAt(i).productAmount += 1;
                           break;
                         }
                       if(i == widget.carItems.length)
                         widget.carItems.add(ProductItemCart(
-                          productTitle: widget.drink.productTitle, 
+                          productTitle: widget.grains.productTitle, 
                           productAmount: 1,
-                          productPrice: widget.drink.productPrice,
-                          productImage: widget.drink.productImage,
+                          productPrice: widget.grains.productPrice,
+                          productImage: widget.grains.productImage,
                           size: size,
-                          objectReference: widget.drink
+                          objectReference: widget.grains
                         ));
                       Navigator.of(context).pop();
                     },

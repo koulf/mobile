@@ -1,28 +1,29 @@
 import 'package:estructura_practica_1/cart/cart.dart';
+import 'package:estructura_practica_1/desserts/item_desserts.dart';
+import 'package:estructura_practica_1/models/product_dessert.dart';
 import 'package:estructura_practica_1/models/product_item_cart.dart';
 import 'package:flutter/material.dart';
-import 'package:estructura_practica_1/drinks/item_hot_drinks.dart';
-import 'package:estructura_practica_1/models/product_hot_drinks.dart';
 
-class HotDrinksPage extends StatefulWidget {
-  final List<ProductHotDrinks> drinksList;
+
+class DessertsPage extends StatefulWidget {
+  final List<ProductDessert> dessertsList;
   final List<ProductItemCart> carItems;
-  HotDrinksPage({
+  DessertsPage({
     Key key,
-    @required this.drinksList,
+    @required this.dessertsList,
     @required this.carItems
   }) : super(key: key);
 
   @override
-  _HotDrinksPageState createState() => _HotDrinksPageState();
+  _DessertsPageState createState() => _DessertsPageState();
 }
 
-class _HotDrinksPageState extends State<HotDrinksPage> {
+class _DessertsPageState extends State<DessertsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Bebidas"),
+        title: Text("Postres"),
         centerTitle: true,
         actions: [
           IconButton(
@@ -41,10 +42,10 @@ class _HotDrinksPageState extends State<HotDrinksPage> {
         ],
       ),
       body: ListView.builder(
-        itemCount: widget.drinksList.length,
+        itemCount: widget.dessertsList.length,
         itemBuilder: (BuildContext context, int index) {
-          return ItemHotDrinks(
-            drink: widget.drinksList[index],
+          return ItemDesserts(
+            dessert: widget.dessertsList[index],
             carItems: widget.carItems
           );
         },

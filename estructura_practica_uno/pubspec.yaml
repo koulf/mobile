@@ -28,11 +28,10 @@ flutter:
   fonts:
     - family: Akzidenz-Grotesk BQ Light
       fonts:
-        - asset: fonts/AkzidenzGrotesk-Medium.otf
+        - asset: fonts/Akzidenz-Grotesk BQ Light.ttf
 
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/
 
   # fonts:
   #   - family: Schyler
