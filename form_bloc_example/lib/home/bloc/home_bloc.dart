@@ -28,7 +28,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       else
         yield ErrorState(error: "No hay elementos por mostrar");
     } else if (event is FilterUsersEvent) {
-      // TODO hacer despues
+      yield LoadingState();
+      await _getAllUsers();
+      if (_userList.length > 0) {
+        if(event.props[0])
+          yield ShowUsersState(usersList: _userList.where((element) => element.id % 2 == 0).toList());
+        else
+          yield ShowUsersState(usersList: _userList.where((element) => element.id % 2 == 1).toList());
+      }
+      else
+        yield ErrorState(error: "No hay elementos por mostrar");
     }
   }
 

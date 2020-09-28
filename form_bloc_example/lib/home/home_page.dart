@@ -11,11 +11,36 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  BuildContext genContext;
+
+  void setFilterEvent(int value) {
+    BlocProvider.of<HomeBloc>(this.genContext).add(FilterUsersEvent(filterEven: value == 0));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Users list"),
+        actions: [
+          PopupMenuButton(
+            onSelected: (int value) {
+              setFilterEvent(value);
+            },
+            icon: Icon(Icons.menu),
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: 0,
+                child: Text('Pares')
+              ),
+              PopupMenuItem(
+                value: 1,
+                child: Text('Impares')
+              )
+            ]
+          )
+        ]
       ),
       body: BlocProvider(
         create: (context) => HomeBloc()..add(GetAllUsersEvent()),
@@ -31,15 +56,28 @@ class _HomePageState extends State<HomePage> {
             }
           },
           builder: (context, state) {
+            this.genContext = context;
             if (state is ShowUsersState) {
               return RefreshIndicator(
-                child: ListView.builder(
+                child: ListView.separated(
                   itemCount: state.usersList.length,
+                  separatorBuilder: (BuildContext context, int index) => Divider(),
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
                       title: Text(state.usersList[index].name),
+                      subtitle: Padding(
+                        padding: EdgeInsets.only(top: 5.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Company: ' + state.usersList[index].company.name),
+                            Text('Street: ' + state.usersList[index].address.street),
+                            Text(state.usersList[index].phone)
+                          ]
+                        )
+                      )
                     );
-                  },
+                  }
                 ),
                 onRefresh: () async {
                   BlocProvider.of<HomeBloc>(context).add(GetAllUsersEvent());
